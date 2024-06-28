@@ -1,0 +1,30 @@
+<div class="container mt-5">
+  <div class="d-flex flex-column">
+    <div class="login-container text-center position-relative">
+      <div class="login-title">LOGIN</div>
+      <p class="text-center field-note mt-4">Already Registered? Please Login From Here.</p>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="email" class="form-label text-start d-block">EMAIL ADDRESS*</label>
+          <input type="email" formControlName="email" class="form-control " id="email" placeholder="Enter email">
+          @if(f['email'].invalid && f['email'].touched) {
+          <div class="text-danger">Email is required</div>
+          }
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-start d-block">PASSWORD*</label>
+          <input type="password" formControlName="password" class="form-control " id="password" placeholder="Password">
+          @if(f['password'].errors?.['required'] && f['password'].touched) {
+          <div class="text-danger">Password is required</div>
+          }
+        </div>
+        <app-message-component></app-message-component>
+        <button type="submit" class="btn btn-login m-3 rounded-pill " [disabled]="!form.valid">LOGIN</button>
+      </form>
+      <div class="divider">
+        <span>OR</span>
+      </div>
+      <button class="btn btn-register  rounded-pill mt-3" routerLink="/account/register">REGISTER</button>
+    </div>
+  </div>
+</div>

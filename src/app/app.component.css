@@ -1,0 +1,7 @@
+.full-width-hr {
+  border: 0;
+  height: 1px;
+  background: #807898; /* Adjust color as needed */
+  margin: 0;
+  width: 100%;
+}

@@ -1,0 +1,88 @@
+<div class="container d-flex flex-column mt-5">
+  <h1 class="text-center title mb-3">CREATE NEW CUSTOMER ACCOUNT</h1>
+  <!--Personal Information Form -->
+  <div class="form-container d-flex flex-column align-items-center position-relative">
+    <div class="form-title">PERSONAL INFORMATION</div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
+      <div class="mb-3">
+        <label for="firstName" class="form-label text-start d-block mt-5">FIRST NAME*</label>
+        <input type="text" class="form-control" formControlName="firstname" placeholder="Enter first name">
+        @if(f['firstname'].errors?.['required'] && f['firstname'].touched) {
+        <div class="text-danger">First Name is required</div>
+        } @else {
+        @if(f['firstname'].errors?.['onlyLetters'] && f['firstname'].touched) {
+        <div class="text-danger">First Name is invalid,only letters allowed.</div>
+        }
+        }
+      </div>
+      <div class="mb-3">
+        <label for="lastName" class="form-label text-start d-block">LAST NAME*</label>
+        <input type="text" class="form-control" formControlName="lastname" placeholder="Enter last name">
+        @if(f['lastname'].errors?.['required'] && f['lastname'].touched) {
+        <div class="text-danger">Last Name is required</div>
+        } @else {
+        @if(f['lastname'].errors?.['onlyLetters'] && f['lastname'].touched) {
+        <div class="text-danger">First Name is invalid,only letters allowed.</div>
+        }
+        }
+      </div>
+      <!--Sign-In Information Form-->
+      <div class=" d-flex flex-column align-items-center">
+        <div class="w-100 mt-4">
+          <div class="mb-3">
+            <label for="email" class="form-label text-start d-block">EMAIL*</label>
+            <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
+            @if(f['email'].errors?.['required'] && f['email'].touched) {
+            <div class="text-danger">Email is required</div>
+            } @else {
+            @if(f['email'].errors?.['email'] && f['email'].touched){
+            <div class="text-danger">Email is invalid</div>
+            }
+            }
+          </div>
+          <div class="mb-3">
+            <label for="confirmEmail" class="form-label text-start d-block">CONFIRM EMAIL*</label>
+            <input type="email" class="form-control" formControlName="confirmEmail" placeholder="Confirm email">
+            @if(form.errors?.['emailMismatch'] && f['confirmEmail'].touched) {
+            <div class="text-danger">Email does not match</div>
+            } @else {
+            @if(f['confirmEmail'].invalid && f['confirmEmail'].touched){
+            <div class="text-danger">Email is required</div>
+            }
+            }
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label text-start d-block">PASSWORD*</label>
+            <input type="password" class="form-control" formControlName="password" placeholder="Password">
+            @if(f['password'].errors?.['required'] && f['password'].touched) {
+            <div class="text-danger">Password is required</div>
+            }
+            @if(f['password'].errors?.['minlength'] && f['password'].touched) {
+            <div class="text-danger">Password must be at least 8 characters long</div>
+            }
+            @if(form.errors?.['passwordStrength'] && f['password'].touched) {
+            <div class="text-danger">
+              Password is invalid, must contain at least 1 Uppercase, 1 Lowercase, 1 Number, and 1 Special character
+            </div>
+            }
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label text-start d-block">CONFIRM PASSWORD*</label>
+            <input type="password" class="form-control" formControlName="confirmPassword"
+              placeholder="Confirm password">
+            @if(f['confirmPassword'].errors?.['required'] && f['confirmPassword'].touched) {
+            <div class="text-danger">Confirm Password is required</div>
+            }
+            @if(form.errors?.['passwordMismatch'] && f['confirmPassword'].touched) {
+            <div class="text-danger">Passwords do not match</div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="d-flex  justify-content-around">
+        <button type="button" class="btn btn-back rounded-pill" routerLink="/account/login">BACK</button>
+        <button type="submit" class="btn btn-submit rounded-pill" [disabled]="!form.valid">SUBMIT</button>
+      </div>
+    </form>
+  </div>
+</div>

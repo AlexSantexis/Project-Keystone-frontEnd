@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <h2 class="cart-title text-center mb-3">Your Cart</h2>
+  @if (basket && basket.items.length > 0) {
+  <div class="row item-row">
+    @for (item of basket.items; track item.basketItemId) {
+    <div class="col-12">
+      <div class="card m-1 p-2">
+        <div class="row g-0">
+          <div class="col-3 d-flex align-items-start">
+            <img [src]="item.imgUrl" [alt]="item.productName" class="img-thumbnail mb-1">
+          </div>
+          <div class="col-6">
+            <div class="card-body">
+              <h5 class="product-title">{{ item.productName }}</h5>
+              <div class="quantity-container">
+                <select class="form-select quantity-select" [value]="item.quantity"
+                  (change)="updateQuantity(item, $any($event.target).value)">
+                  @for (i of [1, 2, 3, 4, 5]; track i) {
+                  <option [value]="i">{{ i }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 d-flex align-items-center justify-content-end">
+            <div class="price-quantity">
+              <div class="price">€{{ (item.price * item.quantity).toFixed(2) }}</div>
+              <button (click)="removeItem(item.basketItemId)"
+                class="btn btn-delete"><mat-icon>delete</mat-icon></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  <div class="text-end total-saved">
+    <h3>TOTAL: €{{ totalPrice.toFixed(2) }}</h3>
+    <a class="btn btn-checkout rounded-pill mt-2 mb-2" (click)="onCheckout()"><span>CHECKOUT</span></a>
+  </div>
+  } @else {
+  <p class="mt-4 text-center" style="color: white;">Your cart is empty.</p>
+  }
+</div>
+@if (showThankYouMessage) {
+<div class="thank-you-message">
+  <p>Thank you for your purchase!</p>
+</div>
+}

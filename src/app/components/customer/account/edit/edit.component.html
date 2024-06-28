@@ -1,0 +1,78 @@
+<div class="container d-flex flex-column mt-3">
+  <div class="dropdown w-100">
+    <a href="#" class="btn dropdown-toggle account-dropdown w-100 d-flex justify-content-between align-items-center"
+      role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      MY ACCOUNT
+      <span class="dropdown-arrow"></span>
+    </a>
+    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item" href="customer/order">MY ORDERS</a></li>
+      <li><a class="dropdown-item" href="customer/wishlist">WISHLIST</a></li>
+      <li><a class="dropdown-item">LOGOUT</a></li>
+    </ul>
+  </div>
+  <span class="account-title mt-4 mb-3">EDIT ACCOUNT INFORMATION</span>
+  <div class="block-content position-relative mt-4">
+    <div class="block-title d-flex align-content-center mt-3 account-information-title">
+      <h2 class="text-start header">ACCOUNT INFORMATION</h2>
+    </div>
+    <div class="mt-3 ms-2 d-flex flex-column align-items-center text-uppercase">
+      <strong class="mt-2 box-title"><span>contact information</span></strong>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-75">
+        <div class="mb-3">
+          <label for="firstName" class="form-label text-start d-block mt-5">FIRST NAME*</label>
+          <input type="text" class="form-control" formControlName="firstname" placeholder="Enter first name">
+          @if(f['firstname'].errors?.['required'] && f['firstname'].touched) {
+          <div class="text-danger">First Name is required</div>
+          } @else {
+          @if(f['firstname'].errors?.['onlyLetters'] && f['firstname'].touched) {
+          <div class="text-danger">First Name is invalid,only letters allowed.</div>
+          }
+          }
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="form-label text-start d-block">LAST NAME*</label>
+          <input type="text" class="form-control" formControlName="lastname" placeholder="Enter last name">
+          @if(f['lastname'].errors?.['required'] && f['lastname'].touched) {
+          <div class="text-danger">Last Name is required</div>
+          } @else {
+          @if(f['lastname'].errors?.['onlyLetters'] && f['lastname'].touched) {
+          <div class="text-danger">First Name is invalid,only letters allowed.</div>
+          }
+          }
+        </div>
+        <div class=" d-flex flex-column align-items-center">
+          <div class="w-100 mt-4">
+            <div class="mb-3">
+              <label for="email" class="form-label text-start d-block">EMAIL*</label>
+              <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
+              @if(f['email'].errors?.['required'] && f['email'].touched) {
+              <div class="text-danger">Email is required</div>
+              } @else {
+              @if(f['email'].errors?.['email'] && f['email'].touched){
+              <div class="text-danger">Email is invalid</div>
+              }
+              }
+            </div>
+            <div class="mb-3">
+              <label for="confirmEmail" class="form-label text-start d-block">CONFIRM EMAIL*</label>
+              <input type="email" class="form-control" formControlName="confirmEmail" placeholder="Confirm email">
+              @if(form.errors?.['emailMismatch'] && f['confirmEmail'].touched) {
+              <div class="text-danger">Email does not match</div>
+              } @else {
+              @if(f['confirmEmail'].invalid && f['confirmEmail'].touched){
+              <div class="text-danger">Email is required</div>
+              }
+              }
+            </div>
+            <app-message-component></app-message-component>
+          </div>
+        </div>
+        <div class="mt-2 d-flex flex-row justify-content-around mb-3">
+          <a class="btn btn-custom me-2" [routerLink]="['/customer/account']"><span>Go Back</span></a>
+          <button class="btn btn-custom" type="submit" [disabled]="!form.valid">save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

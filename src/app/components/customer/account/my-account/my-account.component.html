@@ -1,0 +1,59 @@
+<div class="container d-flex flex-column mt-3">
+  <div class="dropdown w-100">
+    <a href="#" class="btn dropdown-toggle account-dropdown w-100 d-flex justify-content-between align-items-center"
+      role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      MY ACCOUNT
+      <span class="dropdown-arrow"></span>
+    </a>
+    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item" href="customer/order">MY ORDERS</a></li>
+      <li><a class="dropdown-item" href="customer/wishlist">WISHLIST</a></li>
+      <li><a class="dropdown-item" (click)="logout()">LOGOUT</a></li>
+    </ul>
+  </div>
+  <span class="account-title mt-4">MY ACCOUNT</span>
+
+  <!-- Account Information Section -->
+  <div class="block-title d-flex align-content-center mt-3">
+    <h2 class="text-start header">ACCOUNT INFORMATION</h2>
+  </div>
+  <div class="block-content">
+    <div class=" ms-2 d-flex flex-column align-items-stretch text-uppercase">
+      <strong class="mt-2 box-title"><span>contact information</span></strong>
+      <div class="mt-2 d-flex flex-column align-items-stretch">
+        <span class="box-info">{{ user?.firstname }} {{ user?.lastname }}</span>
+        <span class="box-info">{{ user?.email }}</span>
+      </div>
+      <div class="mt-4  d-flex flex-column">
+        <a class="btn btn-custom mb-2" [routerLink]="['/account/edit']"><span>EDIT INFORMATION</span></a>
+        <a class="btn btn-custom mb-4" [routerLink]="['/account/change-password']"><span>CHANGE PASSWORD</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 block-title d-flex justify-content-between align-content-center mt-3">
+    <h2 class="text-start header">ADDRESS BOOK</h2>
+    <a class="btn btn-custom mb-2" [routerLink]="['/account/manage-address']"><span>MANAGE ADDRESSES</span></a>
+  </div>
+  <div class="block-content p-3">
+    @if(address)
+    {
+    <div class="mt-2 d-flex flex-column align-items-start">
+      <span class="box-info">Street: {{ address.streetAddress.toUpperCase() }}</span>
+      <span class="box-info">City: {{ address.city.toUpperCase() }}</span>
+      <span class="box-info">ZipCode: {{ address.zipCode.toUpperCase() }}</span>
+      <span class="box-info">Country: {{ address.country.toUpperCase() }}</span>
+      <button class="btn btn-delete mt-3" (click)="deleteAddress()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    }
+    @else {
+    <div><span class="box-info">YOU HAVE NOT SET A DEFAULT ADDRESS YET</span>
+    </div>
+    }
+  </div>
+  <app-message-component></app-message-component>
+  <div class="text-center mt-4">
+    <button class="btn btn-delete mb-3" (click)="deleteAccount()"><span>DELETE ACCOUNT</span></button>
+  </div>
+</div>

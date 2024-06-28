@@ -1,0 +1,54 @@
+<div class="container d-flex flex-column mt-3">
+  <div class="dropdown w-100">
+    <a href="#" class="btn dropdown-toggle account-dropdown w-100 d-flex justify-content-between align-items-center"
+      role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      WISHLIST
+      <span class="dropdown-arrow"></span>
+    </a>
+    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item" href="customer/account">MY ACCOUNT</a></li>
+      <li><a class="dropdown-item" href="customer/order">MY ORDERS</a></li>
+      <li><a class="dropdown-item" href="#">LOGOUT</a></li>
+    </ul>
+  </div>
+  <span class="account-title mt-4">WISHLIST</span>
+  <div class="container my-2">
+    <div class="position-relative mb-3">
+      <div class="glow-effect">GAMES</div>
+      <div class="line position-absolute flex-grow-1"></div>
+    </div>
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-2 g-md-3">
+      @if (wishlist && wishlist.items.length) {
+      @for (product of wishlist.items.slice(0, displayCount); track product.productId) {
+      <div class="col">
+        <div class="card game-card h-100">
+          <a [routerLink]="['/game', createSlug(product.name)]" class="text-decoration-none">
+            <img [src]="product.imgUrl" class="card-img-top" [alt]="product.name">
+            <div class="card-body p-2">
+              <h6 class="card-title mb-0 text-truncate">{{ product.name }}</h6>
+            </div>
+          </a>
+          <div class="card-body d-flex flex-column p-2">
+            <div class="mt-auto">
+              <p class="card-price mb-2">€{{ product.price.toFixed(2) }}</p>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary btn-sm favorite-btn text-center"
+                  (click)="removeFromWishlist(product.productId)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button class="btn btn-primary btn-sm cart-btn d-flex align-items-center" (click)="addToBasket(product.productId)">
+                  <mat-icon>shopping_cart</mat-icon>Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+      } @else {
+      <div class="col-12 mt-5">
+        <span class="box-info text-center">YOUR WISHLIST IS EMPTY</span>
+      </div>
+      }
+    </div>
+  </div>

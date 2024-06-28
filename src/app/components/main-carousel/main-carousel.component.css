@@ -1,0 +1,19 @@
+.list-group .list-group-item {
+  background-color: #0c0020;
+}
+
+.list-group .list-group-item:hover {
+  background-color: #271e46;
+}
+
+.list-group-item h3,
+.list-group-item span {
+  font-size: 0.75rem;
+  color: white;
+}
+
+.sidebar-large .list-group-item span,
+.sidebar-small .list-group-item span {
+  display: block;
+  font-weight: bold;
+}

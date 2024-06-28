@@ -1,0 +1,244 @@
+<div class="container d-flex flex-column mt-3">
+  <div class="dropdown w-100">
+    <a href="#" class="btn dropdown-toggle account-dropdown w-100 d-flex justify-content-between align-items-center"
+      role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      {{ currentView === 'users' ? 'USERS' : 'PRODUCTS' }}
+      <span class="dropdown-arrow"></span>
+    </a>
+    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item" (click)="setView('users')">USERS</a></li>
+      <li><a class="dropdown-item" (click)="setView('products')">PRODUCTS</a></li>
+      <li><a class="dropdown-item" (click)="logout()">LOGOUT</a></li>
+    </ul>
+  </div>
+  <span class="account-title mt-4">ADMIN DASHBOARD</span>
+
+  @if (currentView === 'users') {
+  <ul class="mt-2 nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'userInfo'" (click)="setActiveTab('userInfo')">User Info</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'address'" (click)="setActiveTab('address')">Address</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'role'" (click)="setActiveTab('role')">Role</a>
+    </li>
+  </ul>
+
+  @if (!isUpdateFormVisible) {
+  <table class="table table-custom">
+    <thead>
+      <tr class="header-color">
+        @if (activeTab === 'userInfo') {
+        <th scope="col">Email</th>
+        <th scope="col">Firstname</th>
+        <th scope="col">Lastname</th>
+        }
+        @if (activeTab === 'address') {
+        <th scope="col">Street Address</th>
+        <th scope="col">City</th>
+        <th scope="col">Zip Code</th>
+        <th scope="col">Country</th>
+        }
+        @if (activeTab === 'role') {
+        <th scope="col">Roles</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users; track user.id) {
+      <tr class="header-color" (click)="selectUser(user)" [class.selected]="selectedUser?.id === user.id">
+        @if (activeTab === 'userInfo') {
+        <td>{{user.email}}</td>
+        <td>{{user.firstname}}</td>
+        <td>{{user.lastname}}</td>
+        }
+        @if (activeTab === 'address') {
+        <td>{{user.address?.streetAddress || 'N/A'}}</td>
+        <td>{{user.address?.city || 'N/A'}}</td>
+        <td>{{user.address?.zipCode || 'N/A'}}</td>
+        <td>{{user.address?.country || 'N/A'}}</td>
+        }
+        @if (activeTab === 'role') {
+        <td>{{user.roles.length > 0 ? user.roles.join(', ') : 'No roles'}}</td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+  <div>
+    @if (activeTab === 'userInfo') {
+    <button class="btn btn-custom me-2" (click)="deleteUser()" [disabled]="!selectedUser">Delete User</button>
+    }
+    @if (activeTab === 'address') {
+    <button class="btn btn-custom me-2" (click)="deleteAddress()" [disabled]="!selectedUser?.address">Delete
+      Address</button>
+    }
+    <button class="btn btn-custom" (click)="showUpdateForm()" [disabled]="!selectedUser">Update</button>
+  </div>
+  }
+
+  @if (isUpdateFormVisible && selectedUser) {
+  @if (activeTab === 'userInfo') {
+  <form [formGroup]="userInfoForm" (ngSubmit)="submitUserUpdate()">
+    <div class="mt-2 ms-2">
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="email" class="form-label">Email:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="email" type="text" class="form-control" formControlName="email" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="firstname" class="form-label">First Name:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="firstname" type="text" class="form-control" formControlName="firstname" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="lastname" class="form-label">Last Name:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="lastname" type="text" class="form-control" formControlName="lastname" required>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-custom" type="button" (click)="cancelUpdate()">Back</button>
+    <button class="btn btn-custom" type="submit" [disabled]="userInfoForm.invalid">Submit</button>
+  </form>
+  }
+
+  @if (activeTab === 'address') {
+  <form [formGroup]="addressForm" (ngSubmit)="submitAddressUpdate()">
+    <div class="mt-2 ms-2">
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="streetAddress" class="form-label">Street Address:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="streetAddress" type="text" class="form-control" formControlName="streetAddress" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="city" class="form-label">City:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="city" type="text" class="form-control" formControlName="city" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="zipCode" class="form-label">Zip Code:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="zipCode" type="text" class="form-control" formControlName="zipCode" required>
+          @if (addressForm.get('zipCode')?.hasError('pattern') && addressForm.get('zipCode')?.touched) {
+          <small class="text-danger">Zip code must be 5 digits</small>
+          }
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="country" class="form-label">Country:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="country" type="text" class="form-control" formControlName="country" required>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-custom" type="button" (click)="cancelUpdate()">Back</button>
+    <button class="btn btn-custom" type="submit" [disabled]="addressForm.invalid">Update Address</button>
+  </form>
+  }
+
+  @if (activeTab === 'role') {
+  <form [formGroup]="userInfoForm" (ngSubmit)="submitUserUpdate()">
+    <div class="row mb-3 mt-2">
+      <div class="col-md-3">
+        <label for="roles" class="form-label">Roles:</label>
+      </div>
+      <div class="col-md-9">
+        <input id="roles" type="text" class="form-control" formControlName="roles">
+      </div>
+    </div>
+    <button class="btn btn-custom" type="button" (click)="cancelUpdate()">Back</button>
+    <button class="btn btn-custom" type="submit" [disabled]="userInfoForm.invalid">Submit</button>
+  </form>
+  }
+  }
+  }
+
+  @if (currentView === 'products') {
+  @if (!isUpdateFormVisible) {
+  <table class="table table-custom">
+    <thead>
+      <tr class="header-color">
+        <th scope="col">Product ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products; track product.productId) {
+      <tr (click)="selectProduct(product)" [class.selected]="selectedProduct?.productId === product.productId">
+        <td>{{product.productId}}</td>
+        <td>{{product.name}}</td>
+        <td>{{product.price | currency}}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  <div>
+    <button class="btn btn-custom me-2" (click)="deleteProduct()" [disabled]="!selectedProduct">Delete</button>
+    <button class="btn btn-custom" (click)="showUpdateForm()" [disabled]="!selectedProduct">Update</button>
+  </div>
+  <nav aria-label="Product navigation">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      @for (page of getPageNumbers(); track page) {
+      <li class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage === getTotalPages()">
+        <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  }
+  @if (isUpdateFormVisible && selectedProduct) {
+  <form [formGroup]="productForm" (ngSubmit)="submitProductUpdate()" class="form-control">
+    <div>
+      <label class="form-label" for="name">Name:</label>
+      <input type="text" id="name" formControlName="name" required>
+    </div>
+    <div>
+      <label class="form-label" for="description">Description:</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+    <div>
+      <label class="form-label" for="price">Price:</label>
+      <input type="number" id="price" formControlName="price" required>
+    </div>
+    <div>
+      <label class="form-label" for="imgUrl">Image URL:</label>
+      <input type="text" id="imgUrl" formControlName="imgUrl">
+    </div>
+    <button class="btn btn-custom" type="button" (click)="cancelUpdate()">Back</button>
+    <button class="btn btn-custom" type="submit" [disabled]="productForm.invalid">Submit</button>
+  </form>
+  }
+  }
+</div>

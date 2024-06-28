@@ -1,0 +1,113 @@
+.page-title > h1 {
+  color: white;
+  font-size: 1.4rem;
+}
+
+.breadcrumbs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #807898;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-link {
+  color: #807898;
+  text-decoration: none;
+}
+
+.breadcrumb-divider {
+  width: 1px;
+  height: 20px;
+  background-color: #807898;
+  margin: 0 15px;
+  align-self: stretch;
+}
+
+.breadcrumb-container-lg {
+  top: 3px;
+  font-size: 0.9rem;
+}
+
+/* Filters */
+.btn-spacing {
+  margin-right: 1rem; /* Adjust the value as needed */
+}
+
+.btn-spacing:last-child {
+  margin-right: 0;
+}
+
+.custom-btn {
+  width: auto;
+  padding: 10px 30px; /* Adjust padding to increase length */
+  min-width: 150px; /* Minimum width for the buttons */
+}
+
+.btn-outline-light {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.btn-outline-light:hover,
+.btn-outline-light:focus,
+.btn-outline-light:active {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-menu {
+  background-color: #0c0020;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-item {
+  color: white;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* New additions */
+.game-card {
+  background-color: #2a2a2a;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.game-card .card-img-top {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.game-card .card-body {
+  background-color: #0c0020;
+  color: white;
+}
+
+.card-price {
+  font-size: 0.9rem;
+  color: white;
+}
+
+.favorite-btn {
+  background-color: #3d2e6a;
+  border-color: white;
+  color: white;
+}
+
+.cart-btn {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}

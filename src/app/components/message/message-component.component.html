@@ -1,0 +1,10 @@
+@if (message) {
+<div class="error alert alert-dismissible fade show mt-3" [ngClass]="{
+         'alert-danger': message.type === 'error',
+         'alert-success': message.type === 'success',
+         'alert-info': message.type === 'info'
+       }" role="alert">
+  {{ message.text }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}

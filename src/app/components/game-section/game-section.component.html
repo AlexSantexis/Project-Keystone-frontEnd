@@ -1,0 +1,155 @@
+<div class="container position-relative">
+  <div class="mt-3 page-title">
+    <h1 class="text-center">{{ sectionType?.toUpperCase() }}</h1>
+  </div>
+  <div class="breadcrumb-container-lg d-none d-md-flex justify-content-center align-items-center position-absolute">
+    <ul class="d-flex breadcrumbs me-3">
+      <li class="breadcrumb-item">
+        <a routerLink="/" class="breadcrumb-link">HOME</a>
+      </li>
+      <li class="breadcrumb-divider"></li>
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-text">{{ sectionType?.toUpperCase() }}</span>
+      </li>
+    </ul>
+  </div>
+  <!--Smaller Screen -->
+  <div class="d-flex d-md-none justify-content-center me-3">
+    <ul class="d-flex breadcrumbs me-2">
+      <li class="breadcrumb-item">
+        <a routerLink="/" class="breadcrumb-link">HOME</a>
+      </li>
+      <li class="breadcrumb-divider"></li>
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-text">{{ sectionType?.toUpperCase() }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Filter -->
+  <div class="container-fluid">
+    <!-- For small screens -->
+    <div class="d-block d-md-none text-center mb-3">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-outline-light dropdown-toggle custom-btn" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          SORT BY
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="onSortOrderChange('asc')">Price: Low to High</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onSortOrderChange('desc')">Price: High to Low</a></li>
+        </ul>
+      </div>
+      <div class="btn-group ms-2">
+        <button type="button" class="btn btn-outline-light dropdown-toggle custom-btn" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          GENRE
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="onGenreChange('Action')">Action</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onGenreChange('Adventure')">Adventure</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onGenreChange('Singleplayer')">Singleplayer</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onGenreChange('Strategy')">Strategy</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onGenreChange('Multiplayer')">Multiplayer</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- For larger screens -->
+    <div class="d-none d-md-flex justify-content-center mb-4">
+      <div class="btn-group me-2">
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="onSortOrderChange('asc')">Price: Low to High</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onSortOrderChange('desc')">Price: High to Low</a></li>
+        </ul>
+      </div>
+      <div class="btn-group mx-2">
+        <button type="button" class="btn btn-outline-light dropdown-toggle custom-btn" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          PRICE
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="onSortOrderChange('asc')">Low to High</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onSortOrderChange('desc')">High to Low</a></li>
+        </ul>
+      </div>
+      <div class="btn-group ms-2">
+        <button type="button" class="btn btn-outline-light dropdown-toggle custom-btn" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          GENRE
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="onGenreChange('Action')">Action</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onGenreChange('Adventure')">Adventure</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onGenreChange('Singleplayer')">Singleplayer</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onGenreChange('Strategy')">Strategy</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="onGenreChange('Multiplayer')">Multiplayer</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="container my-2">
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-2 g-md-3">
+      @for (product of products.slice(0, displayCount); track product.productId) {
+      <div class="col">
+        <div class="card game-card h-100">
+          <a [routerLink]="['/game', createSlug(product.name)]" class="text-decoration-none">
+            <img [src]="product.imgUrl" class="card-img-top" [alt]="product.name">
+            <div class="card-body p-2">
+              <h6 class="card-title mb-0 text-truncate">{{ product.name }}</h6>
+            </div>
+          </a>
+          <div class="card-body d-flex flex-column p-2">
+            <div class="mt-auto">
+              <p class="card-price mb-2">€{{ product.price.toFixed(2) }}</p>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary btn-sm favorite-btn text-center p-1">
+                  <mat-icon>favorite</mat-icon>
+                </button>
+                <button class="btn btn-primary btn-sm cart-btn d-flex align-items-center">
+                  <mat-icon>shopping_cart</mat-icon>Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

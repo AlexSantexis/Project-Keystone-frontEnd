@@ -1,0 +1,73 @@
+<div class="container d-flex flex-column mt-3">
+  <div class="dropdown w-100">
+    <a href="#" class="btn dropdown-toggle account-dropdown w-100 d-flex justify-content-between align-items-center"
+      role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      MY ACCOUNT
+      <span class="dropdown-arrow"></span>
+    </a>
+    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item" href="customer/order">MY ORDERS</a></li>
+      <li><a class="dropdown-item" href="customer/wishlist">WISHLIST</a></li>
+      <li><a class="dropdown-item">LOGOUT</a></li>
+    </ul>
+  </div>
+  <span class="account-title mt-4 mb-3">EDIT ACCOUNT INFORMATION</span>
+  <div class="block-content position-relative mt-4">
+    <div class="block-title d-flex align-content-center mt-3 account-information-title">
+      <h2 class="text-start header">ADDRESS MANAGEMENT</h2>
+    </div>
+    <div class="mt-3 ms-2 d-flex flex-column align-items-center text-uppercase">
+      <div class="m-3">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
+          <div class="mb-3">
+            <label for="password" class="form-label text-start d-block">STREET ADDRESS*</label>
+            <input type="city" class="form-control" formControlName="streetAddress"
+              placeholder="{{address?.streetAddress}}">
+            @if(f['streetAddress'].errors?.['required'] && f['streetAddress'].touched) {
+            <div class="text-danger">Street Address is required</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label for="city" class="form-label text-start d-block">CITY*</label>
+            <input type="text" class="form-control" formControlName="city" placeholder="{{address?.city}}">
+            @if(f['city'].errors?.['required'] && f['city'].touched) {
+            <div class="text-danger">City is required</div>
+            }
+            @else {
+            @if(f['city'].errors?.['onlyLetters'] && f['city'].touched) {
+            <div class="text-danger">City is invalid,only letters allowed.</div>
+            }
+            }
+          </div>
+          <div class="mb-3">
+            <label for="zipcode" class="form-label text-start d-block">ZIPCODE*</label>
+            <input type="text" class="form-control" formControlName="zipcode" placeholder="{{address?.zipCode}}">
+            @if(f['zipcode'].errors?.['required'] && f['zipcode'].touched) {
+            <div class="text-danger">Zipcode is required</div>
+            }
+            @if(f['zipcode'].errors?.['pattern'] && f['zipcode'].touched){
+            <div class="text-danger">Only numbers allowed</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label for="country" class="form-label text-start d-block">COUNTRY*</label>
+            <input type="text" class="form-control" formControlName="country" placeholder="{{address?.country}}">
+            @if(f['country'].errors?.['required'] && f['country'].touched) {
+            <div class="text-danger">Country is required</div>
+            }
+            @else {
+            @if(f['country'].errors?.['onlyLetters'] && f['country'].touched) {
+            <div class="text-danger">Country is invalid,only letters allowed.</div>
+            }
+            }
+          </div>
+          <div class="mt-3 d-flex flex-row justify-content-around mb-3">
+            <a class="btn btn-custom me-2" [routerLink]="['/customer/account']"><span>Go Back</span></a>
+            <button class="btn btn-custom" type="submit" [disabled]="!form.valid">save</button>
+          </div>
+        </form>
+        <app-message-component></app-message-component>
+      </div>
+    </div>
+  </div>
+</div>

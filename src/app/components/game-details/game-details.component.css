@@ -1,0 +1,65 @@
+.container {
+  background-color: #0c0020;
+}
+.favorite-btn {
+  background-color: #41316f;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.btn-primary {
+  background-color: #16a47b;
+  color: white;
+  text-transform: uppercase;
+  border: none;
+  width: 40%;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.bg-light {
+  background-color: rgba(255, 255, 255, 0.5);
+  height: 1px;
+  width: 100%;
+  border: none;
+}
+
+.text-white {
+  color: white;
+}
+
+.breadcrumbs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #807898;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-link {
+  color: #807898;
+  text-decoration: none;
+}
+
+.breadcrumb-divider {
+  width: 1px;
+  height: 20px;
+  background-color: #807898;
+  margin: 0 15px;
+  align-self: stretch;
+}
+
+.breadcrumb-container-lg {
+  top: 3px;
+  font-size: 0.9rem;
+}
