@@ -14,17 +14,4 @@ export class MessageComponent {
   message: Message | null = null;
   subscription: Subscription | null = null;
   messageService = inject(MessageService);
-
-  ngOnInit() {
-    this.subscription = this.messageService
-      .getMessage()
-      .subscribe((message) => {
-        this.message = message;
-      });
-  }
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 }

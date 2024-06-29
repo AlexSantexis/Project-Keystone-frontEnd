@@ -17,19 +17,7 @@ export interface UserDetailed {
   roles: RoleModel[];
 }
 
-// export interface UserDetailed {
-//   id: string;
-//   email: string;
-//   firstname: string;
-//   lastname: string;
-//   address: {
-//     streetAddress: string;
-//     city: string;
-//     zipCode: string;
-//     country: string;
-//   } | null;
-//   roles: string[];
-// }
+
 
 export interface Credentials {
   email: string;

@@ -8,6 +8,7 @@ import { UserService } from '../../shared/services/UserService';
 import { BasketService } from '../../shared/services/BasketService';
 import { Basket, BasketItem } from '../../shared/models/Basket.model';
 
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -20,11 +21,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   searchControl = new FormControl('');
   userService = inject(UserService);
   basketService = inject(BasketService);
+  showThankYouMessage: boolean = false;
   basket: Basket | null = null;
   private basketSubscription: Subscription | null = null;
   totalPrice: number = 0;
   router = inject(Router);
-
   ngOnInit(): void {
     this.searchControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
@@ -74,6 +75,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
       next: (updatedBasket) =>
         this.basketService.basketSubject.next(updatedBasket),
       error: (error) => console.error('Error removing basket item', error),
+    });
+  }
+
+  onCheckout(): void {
+    this.basketService.clearBasket().subscribe({
+      next: () => {
+        this.showThankYouMessage = true;
+        setTimeout(() => {
+          this.showThankYouMessage = false;
+          this.router.navigate(['/']);
+        }, 3000);
+      },
+      error: (error) => {
+        console.error('Error during checkout:', error);
+      },
     });
   }
 

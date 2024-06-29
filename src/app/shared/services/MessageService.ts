@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+// MessageService.ts
+import { Injectable, signal } from '@angular/core';
 
 export interface Message {
   type: 'success' | 'error' | 'info';
@@ -10,18 +10,18 @@ export interface Message {
   providedIn: 'root',
 })
 export class MessageService {
-  private messageSubject = new BehaviorSubject<Message | null>(null);
+  private messageSignal = signal<Message | null>(null);
 
   setMessage(message: Message): void {
-    this.messageSubject.next(message);
+    this.messageSignal.set(message);
     setTimeout(() => this.clearMessage(), 5000);
   }
 
   clearMessage(): void {
-    this.messageSubject.next(null);
+    this.messageSignal.set(null);
   }
 
-  getMessage(): Observable<Message | null> {
-    return this.messageSubject.asObservable();
+  getMessage() {
+    return this.messageSignal.asReadonly();
   }
 }

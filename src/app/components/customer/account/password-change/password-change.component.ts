@@ -48,23 +48,22 @@ export class PasswordChangeComponent {
 
     this.userService.changePassword(passwordChangeModel).subscribe({
       next: (response) => {
-        console.log('Password changed successfully', response);
         this.messageService.setMessage({
           type: 'success',
           text: response.message || 'Password changed successfully',
         });
         this.form.reset();
+        this.router.navigate(['/customer/account']);
       },
-      error: (error) => {
-        console.error('Error changing password', error);
-        if (error.status === 404) {
+      error: (response) => {
+        if (response.status === 404) {
           this.messageService.setMessage({
             type: 'error',
-            text: error.error.message || 'User not found',
+            text: response.error.message || 'User not found',
           });
-        } else if (error.status === 400) {
-          if (error.error.errors) {
-            const errorMessages = Object.values(error.error.errors).flat();
+        } else if (response.status === 400) {
+          if (response.error.errors) {
+            const errorMessages = Object.values(response.error.errors).flat();
             this.messageService.setMessage({
               type: 'error',
               text: errorMessages.join(', '),
@@ -72,10 +71,10 @@ export class PasswordChangeComponent {
           } else {
             this.messageService.setMessage({
               type: 'error',
-              text: error.error.message || 'Failed to change password',
+              text: response.error.message || 'Failed to change password',
             });
           }
-        } else if (error.status === 401) {
+        } else if (response.status === 401) {
           this.messageService.setMessage({
             type: 'error',
             text: 'You are not authorized to perform this action. Please log in again.',

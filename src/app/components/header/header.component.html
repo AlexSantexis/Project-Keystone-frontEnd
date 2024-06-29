@@ -95,7 +95,8 @@
               <button class="btn btn-sm" (click)="updateBasketItem(item, 1)">+</button>
             </div>
           </div>
-          <button class="btn btn-sm" (click)="removeBasketItem(item.basketItemId)"><mat-icon>delete</mat-icon></button>
+          <button class="btn btn-delete ms-1 me-1 mb-5" (click)="removeBasketItem(item.basketItemId)"><mat-icon
+              style="color: black">delete</mat-icon></button>
           <span class="price me-2 mb-5">€{{ item.price.toFixed(2) }}</span>
         </div>
       </div>
@@ -107,7 +108,7 @@
     <div class="d-flex flex-column align-items-center w-100 mb-2">
       <span class="mb-5" style="color: white;">TOTAL: €{{ totalPrice.toFixed(2) }}</span>
       <a class="btn btn-custom mb-3" (click)="viewCart()"><span>VIEW CART</span></a>
-      <a class="btn btn-checkout rounded-pill"><span>CHECKOUT</span></a>
+      <a class="btn btn-checkout rounded-pill" routerLink="/cart"><span>CHECKOUT</span></a>
     </div>
   </div>
 </div>

@@ -54,14 +54,22 @@ export class EditComponent {
       });
       return;
     }
-    const user: User = {
-      userId: '',
+    const currentUser = this.userService.user();
+    if (!currentUser) {
+      this.messageService.setMessage({
+        type: 'error',
+        text: 'User not logged in',
+      });
+      return;
+    }
+    const user: User & { currentEmail: string } = {
+      userId: currentUser.userId,
       firstname: this.form.value.firstname,
       lastname: this.form.value.lastname,
       email: this.form.value.email,
+      currentEmail: currentUser.Email,
       password: '',
     };
-    console.log(user);
     this.userService.updateUser(user).subscribe({
       next: (response) => {
         console.log('User updated successfully', response);
@@ -104,5 +112,5 @@ export class EditComponent {
         }
       },
     });
-  } 
+  }
 }

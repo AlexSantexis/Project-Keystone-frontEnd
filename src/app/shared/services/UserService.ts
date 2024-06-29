@@ -10,17 +10,12 @@ import {
   UserDetailed,
 } from '../models/user';
 import { Router } from '@angular/router';
-
 import { jwtDecode } from 'jwt-decode';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, of, tap, throwError } from 'rxjs';
 import { MessageService } from './MessageService';
 
 const API_URL = `${environment.apiURL}/auth`;
 const API_ADMIN_URL = `${environment.apiURL}/user`;
-interface AuthResponse {
-  access_token: string;
-  refresh_token: string;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +38,27 @@ export class UserService {
         console.log('No user logged in');
       }
     });
+  }
+
+  refreshToken(): Observable<TokenModel> {
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) {
+      return throwError(() => new Error('No refresh token available'));
+    }
+    return this.http
+      .post<TokenModel>(`${API_URL}/refresh-token`, {
+        accessToken: localStorage.getItem('access_token'),
+        refreshToken,
+      })
+      .pipe(
+        tap((tokens: TokenModel) => {
+          this.setTokens(tokens.accessToken, tokens.refreshToken);
+        }),
+        catchError((error) => {
+          this.logoutUser();
+          return throwError(() => error);
+        })
+      );
   }
 
   setTokens(accessToken: string, refreshToken: string) {
@@ -77,10 +93,28 @@ export class UserService {
     );
   }
 
-  updateUser(user: User) {
+  // updateUser(user: User) {
+  //   return this.http
+  //     .post<{ msg: string; token: string }>(`${API_URL}/update`, user)
+  //     .pipe(
+  //       catchError((error) => {
+  //         this.messageService.setMessage({
+  //           type: 'error',
+  //           text: error.error.message || 'Update failed',
+  //         });
+  //         return throwError(() => error);
+  //       })
+  //     );
+  // }
+  updateUser(user: User & { currentEmail: string }) {
     return this.http
       .post<{ msg: string; token: string }>(`${API_URL}/update`, user)
       .pipe(
+        tap((response) => {
+          if (response.token) {
+            this.setTokens(response.token, this.getRefreshToken() || '');
+          }
+        }),
         catchError((error) => {
           this.messageService.setMessage({
             type: 'error',
@@ -106,31 +140,6 @@ export class UserService {
     );
   }
 
-  refreshToken(): Observable<TokenModel> {
-    const accessToken = localStorage.getItem('access_token');
-    const refreshToken = this.getRefreshToken();
-    if (!accessToken || !refreshToken) {
-      return throwError(() => new Error('No tokens available'));
-    }
-    return this.http
-      .post<TokenModel>(`${API_URL}/refresh-token`, {
-        accessToken,
-        refreshToken,
-      })
-      .pipe(
-        tap((response: TokenModel) => {
-          this.setTokens(response.accessToken, response.refreshToken);
-        }),
-        catchError((error) => {
-          this.messageService.setMessage({
-            type: 'error',
-            text: error.error.message || 'Token refresh failed',
-          });
-          return throwError(() => error);
-        })
-      );
-  }
-
   logoutUser() {
     this.user.set(null);
     localStorage.removeItem('access_token');
@@ -139,6 +148,7 @@ export class UserService {
       type: 'info',
       text: 'You have been logged out',
     });
+    this.router.navigate(['/account/login']);
   }
 
   deleteUser(email: string) {

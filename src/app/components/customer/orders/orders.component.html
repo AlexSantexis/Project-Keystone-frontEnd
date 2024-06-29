@@ -12,3 +12,44 @@
     </ul>
   </div>
   <span class="account-title mt-4">MY ORDERS</span>
+
+    <div class="table-responsive mt-3">
+      @if (orders(); as orderList) {
+      @if (orderList && orderList.length > 0) {
+      <table class="table table-custom">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of orderList; track order.orderId) {
+          <tr>
+            <td>{{ order.orderId }}</td>
+            <td>{{ order.orderDate | date:'short' }}</td>
+            <td>{{ order.totalAmount | currency }}</td>
+            <td>
+              <span class="badge bg-success">Completed</span>
+              <!-- You can add logic to change the badge color based on order status -->
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      } @else {
+      <div class="alert alert-info mt-3">
+        You have no orders yet.
+      </div>
+      }
+      } @else {
+      <div class="d-flex justify-content-center mt-3">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
