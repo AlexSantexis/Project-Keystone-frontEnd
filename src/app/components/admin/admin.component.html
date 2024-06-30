@@ -220,21 +220,39 @@
   }
   @if (isUpdateFormVisible && selectedProduct) {
   <form [formGroup]="productForm" (ngSubmit)="submitProductUpdate()" class="form-control">
-    <div>
-      <label class="form-label" for="name">Name:</label>
-      <input type="text" id="name" formControlName="name" required>
-    </div>
-    <div>
-      <label class="form-label" for="description">Description:</label>
-      <textarea id="description" formControlName="description"></textarea>
-    </div>
-    <div>
-      <label class="form-label" for="price">Price:</label>
-      <input type="number" id="price" formControlName="price" required>
-    </div>
-    <div>
-      <label class="form-label" for="imgUrl">Image URL:</label>
-      <input type="text" id="imgUrl" formControlName="imgUrl">
+    <div class="mt-2 ms-2">
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="name" class="form-label">Name:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="name" type="text" class="form-control" formControlName="name" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label id="description" for="description" class="form-label">Description:</label>
+        </div>
+        <div class="col-md-9">
+          <textarea id="description" type="text" class="form-control" formControlName="description" required></textarea>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="price" class="form-label">Price:</label>
+        </div>
+        <div class="col-md-9">
+          <input type="number" id="price" class="form-control" formControlName="price" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label id="" for="imgUrl" class="form-label">Image URL:</label>
+        </div>
+        <div class="col-md-9">
+          <input id="imgUrl" id="price" class="form-control" formControlName="imgUrl" required>
+        </div>
+      </div>
     </div>
     <button class="btn btn-custom" type="button" (click)="cancelUpdate()">Back</button>
     <button class="btn btn-custom" type="submit" [disabled]="productForm.invalid">Submit</button>
